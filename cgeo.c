@@ -88,18 +88,19 @@ static PyObject * point_inside_polygon(PyObject * self, PyObject * args)
 	return Py_BuildValue("i", c);
 }
 
-static PyMethodDef module_methods[] = {
+static PyMethodDef module_funcs[] = {
 	{"great_circle_distance", (PyCFunction)great_circle_distance, METH_VARARGS, "great_circle_distance(s_lat, s_lng, d_lat, d_lng)"},
 	{"point_inside_polygon", (PyCFunction)point_inside_polygon, METH_VARARGS, "point_inside_polygon(x, y, ((x, y), ...))"},
 	{NULL, NULL, 0, NULL}
 };
 
+#if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef module_definition = {
 	PyModuleDef_HEAD_INIT,
 	"cgeo",
 	"A module with geographic functions",
 	-1,
-	module_methods
+	module_funcs
 };
 
 PyMODINIT_FUNC PyInit_cgeo(void)
@@ -107,3 +108,9 @@ PyMODINIT_FUNC PyInit_cgeo(void)
 	Py_Initialize();
 	return PyModule_Create(&module_definition);
 }
+#else
+PyMODINIT_FUNC initcgeo(void)
+{
+	Py_InitModule("cgeo", module_funcs);
+}
+#endif
