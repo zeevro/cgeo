@@ -85,7 +85,8 @@ static PyObject * point_inside_polygon(PyObject * self, PyObject * args)
 
 	free(poly);
 
-	return Py_BuildValue("i", c);
+	if (c) Py_RETURN_TRUE;
+	Py_RETURN_FALSE;
 }
 
 static PyMethodDef module_funcs[] = {
