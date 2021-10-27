@@ -65,6 +65,7 @@ static PyObject * point_inside_polygon(PyObject * self, PyObject * args)
 	if (!poly)
 	{
 		PyErr_SetString(PyExc_MemoryError, "Failed allocating memory for polygon!");
+		return NULL;
 	}
 
 	for (i = 0; i < len; i++)
