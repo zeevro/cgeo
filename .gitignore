@@ -1,3 +1,12 @@
-/build
-/dist
-/*.egg-info
+__pycache__/
+build/
+dist/
+*.egg-info
+*.so
+*.whl
+
+.venv/
+venv/
+
+.vscode/
+.*_cache/

@@ -1,8 +1,3 @@
-﻿try:
-    from setuptools import setup, Extension
-except ImportError:
-    from distutils import setup, Extension
+﻿from setuptools import Extension, setup
 
-setup(name='cgeo',
-      version='1.0',
-      ext_modules=[Extension('cgeo._cgeo', ['cgeo.c'])])
+setup(ext_modules=[Extension('cgeo._cgeo', ['cgeo.c'])])

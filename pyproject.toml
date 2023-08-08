@@ -1,0 +1,43 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cgeo"
+version = "1.0"
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: Public Domain",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+
+[tool.setuptools]
+packages = ["cgeo"]
+
+[tool.setuptools.package-data]
+cgeo = ["py.typed"]
+
+[[project.authors]]
+name = "Zeev Rotshtein"
+email = "zeevro@gmail.com"
+
+[[project.maintainers]]
+name = "Zeev Rotshtein"
+email = "zeevro@gmail.com"
+
+[project.urls]
+Repository = "https://github.com/zeevro/cgeo.git"

@@ -96,7 +96,6 @@ static PyMethodDef module_funcs[] = {
 	{NULL, NULL, 0, NULL}
 };
 
-#if PY_MAJOR_VERSION >= 3
 static struct PyModuleDef module_definition = {
 	PyModuleDef_HEAD_INIT,
 	"_cgeo",
@@ -107,12 +106,5 @@ static struct PyModuleDef module_definition = {
 
 PyMODINIT_FUNC PyInit__cgeo(void)
 {
-	Py_Initialize();
 	return PyModule_Create(&module_definition);
 }
-#else
-PyMODINIT_FUNC initcgeo(void)
-{
-	Py_InitModule("_cgeo", module_funcs);
-}
-#endif
