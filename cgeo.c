@@ -2,7 +2,7 @@
 #include <math.h>
 
 #define PI 3.1415926535897932384626433832795
-#define EARTH_RADIUS 6372.795
+#define EARTH_RADIUS 6378.137  // km
 
 #define RAD(deg) (PI * (deg / 180))
 

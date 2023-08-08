@@ -5,7 +5,7 @@ import cgeo
 
 class TestGreatCircleDistance(unittest.TestCase):
     def test_literal(self):
-        self.assertEqual(cgeo.great_circle_distance(1, 2, 3, 4), 314.4915326116153)
+        self.assertEqual(cgeo.great_circle_distance(1, 2, 3, 4), 314.7551553654009)
 
     def test_order(self):
         self.assertEqual(cgeo.great_circle_distance(1, 2, 3, 4), cgeo.great_circle_distance(3, 4, 1, 2))
