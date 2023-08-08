@@ -5,4 +5,4 @@ except ImportError:
 
 setup(name='cgeo',
       version='1.0',
-      ext_modules=[Extension('cgeo', ['cgeo.c'])])
+      ext_modules=[Extension('cgeo._cgeo', ['cgeo.c'])])
