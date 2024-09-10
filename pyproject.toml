@@ -26,6 +26,9 @@ classifiers = [
     "Typing :: Typed",
 ]
 
+[tool.distutils.bdist_wheel]
+py-limited-api = "cp38"
+
 [project.urls]
 Repository = "https://github.com/zeevro/cgeo"
 

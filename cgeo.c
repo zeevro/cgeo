@@ -1,3 +1,5 @@
+#define Py_LIMITED_API 0x03080000  // Python 3.8
+
 #include <Python.h>
 #include <math.h>
 
