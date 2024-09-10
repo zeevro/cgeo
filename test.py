@@ -12,10 +12,7 @@ class TestGreatCircleDistance(unittest.TestCase):
 
 
 class TestPointInPolygon(unittest.TestCase):
-    poly = ((0, 0),
-            (0, 2),
-            (2, 2),
-            (2, 0))
+    poly = ((0, 0), (0, 2), (2, 2), (2, 0))
 
     def test_inside(self):
         for x, y in [(1, 1), (0.5, 0.5), (1.5, 1.5)]:
@@ -26,5 +23,5 @@ class TestPointInPolygon(unittest.TestCase):
             self.assertFalse(cgeo.point_inside_polygon(x, y, self.poly))
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     unittest.main()

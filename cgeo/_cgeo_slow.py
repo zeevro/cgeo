@@ -19,13 +19,13 @@ def great_circle_distance(s_lat, s_lng, d_lat, d_lng):
     sin_delta_lng = sin(delta_lng)
     cos_delta_lng = cos(delta_lng)
 
-    return atan2(
-        sqrt(
-            pow((cos_d_lat * sin_delta_lng), 2) +
-            pow((cos_s_lat * sin_d_lat - sin_s_lat * cos_d_lat * cos_delta_lng) ,2)
-        ),
-        sin_s_lat * sin_d_lat + cos_s_lat * cos_d_lat * cos_delta_lng
-    ) * EARTH_RADIUS
+    return (
+        atan2(
+            sqrt(pow((cos_d_lat * sin_delta_lng), 2) + pow((cos_s_lat * sin_d_lat - sin_s_lat * cos_d_lat * cos_delta_lng), 2)),
+            sin_s_lat * sin_d_lat + cos_s_lat * cos_d_lat * cos_delta_lng,
+        )
+        * EARTH_RADIUS
+    )
 
 
 def point_inside_polygon(x, y, poly):
