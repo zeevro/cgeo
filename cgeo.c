@@ -21,6 +21,8 @@ static PyObject * great_circle_distance(PyObject * self, PyObject * args)
 
 	PyArg_ParseTuple(args, "dddd", &s_lat, &s_lng, &d_lat, &d_lng);
 
+	Py_BEGIN_ALLOW_THREADS
+
 	s_lat = RAD(s_lat);
 	s_lng = RAD(s_lng);
 	d_lat = RAD(d_lat);
@@ -44,6 +46,8 @@ static PyObject * great_circle_distance(PyObject * self, PyObject * args)
 			);
 
 	ret *= EARTH_RADIUS;
+
+	Py_END_ALLOW_THREADS
 
 	return Py_BuildValue("d", ret);
 }
@@ -76,6 +80,8 @@ static PyObject * point_inside_polygon(PyObject * self, PyObject * args)
 		poly[i].Y = PyFloat_AsDouble(PySequence_GetItem(poly_point, 1));
 	}
 
+	Py_BEGIN_ALLOW_THREADS
+
 	for (i = 0, j = len - 1; i < len; j = i++)
 	{
 		if (((poly[i].Y > y) != (poly[j].Y > y)) && (x < (poly[j].X - poly[i].X) * (y - poly[i].Y) / (poly[j].Y - poly[i].Y) + poly[i].X))
@@ -85,6 +91,8 @@ static PyObject * point_inside_polygon(PyObject * self, PyObject * args)
 	}
 
 	free(poly);
+
+	Py_END_ALLOW_THREADS
 
 	if (c) Py_RETURN_TRUE;
 	Py_RETURN_FALSE;
