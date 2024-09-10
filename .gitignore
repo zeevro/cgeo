@@ -3,10 +3,9 @@ build/
 dist/
 *.egg-info
 *.so
-*.whl
+*.pyd
 
 .venv/
-venv/
 
 .vscode/
 .*_cache/
