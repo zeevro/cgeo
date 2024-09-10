@@ -31,6 +31,9 @@ packages = ["cgeo"]
 [tool.setuptools.package-data]
 cgeo = ["py.typed"]
 
+[tool.distutils.bdist_wheel]
+py-limited-api = "cp37"
+
 [[project.authors]]
 name = "Zeev Rotshtein"
 email = "zeevro@gmail.com"

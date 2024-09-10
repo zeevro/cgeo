@@ -1,3 +1,5 @@
+#define Py_LIMITED_API 0x03070000  // Python 3.7
+
 #include <Python.h>
 #include <math.h>
 
