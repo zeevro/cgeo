@@ -37,15 +37,16 @@ static PyObject * great_circle_distance(PyObject * self, PyObject * args)
 	sin_delta_lng = sin(delta_lng);
 	cos_delta_lng = cos(delta_lng);
 
-	ret = atan2(
-				sqrt(
-					pow((cos_d_lat * sin_delta_lng), 2) +
-					pow((cos_s_lat * sin_d_lat - sin_s_lat * cos_d_lat * cos_delta_lng) ,2)
-				),
-				sin_s_lat * sin_d_lat + cos_s_lat * cos_d_lat * cos_delta_lng
-			);
-
-	ret *= EARTH_RADIUS;
+	ret = (
+		atan2(
+			sqrt(
+				pow((cos_d_lat * sin_delta_lng), 2) +
+				pow((cos_s_lat * sin_d_lat - sin_s_lat * cos_d_lat * cos_delta_lng), 2)
+			),
+			sin_s_lat * sin_d_lat + cos_s_lat * cos_d_lat * cos_delta_lng
+		)
+		* EARTH_RADIUS
+	);
 
 	Py_END_ALLOW_THREADS
 
@@ -111,6 +112,9 @@ int exec_module(PyObject * module)
 
 static PyModuleDef_Slot module_slots[] = {
 	{Py_mod_exec, exec_module},
+#ifdef Py_MOD_PER_INTERPRETER_GIL_SUPPORTED
+	{Py_mod_multiple_interpreters, Py_MOD_PER_INTERPRETER_GIL_SUPPORTED},
+#endif
 	{0, NULL},
 };
 
