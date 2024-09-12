@@ -1,10 +1,19 @@
+from __future__ import annotations
+
+from collections.abc import Iterable
 from math import atan2, cos, pow, radians, sin, sqrt
+import warnings
+
+
+warnings.warn('Could not import cgeo C extension, Using slow fallback.')
 
 
 EARTH_RADIUS = 6378.137  # km
 
 
-def great_circle_distance(s_lat, s_lng, d_lat, d_lng):
+def great_circle_distance(s_lat: float, s_lng: float, d_lat: float, d_lng: float) -> float:
+    """Calculate the geodesian (great-circle) distance between two points. Coordinates are given in degrees."""
+
     s_lat = radians(s_lat)
     s_lng = radians(s_lng)
     d_lat = radians(d_lat)
@@ -28,7 +37,11 @@ def great_circle_distance(s_lat, s_lng, d_lat, d_lng):
     )
 
 
-def point_inside_polygon(x, y, poly):
+def point_inside_polygon(x: float, y: float, poly: Iterable[tuple[float, float]]) -> bool:
+    """Check whether a point is inside a polygon."""
+
+    poly = list(poly)
+
     c = False
     for (ix, iy), (jx, jy) in zip(poly, [poly[-1], *poly[:-1]]):
         if ((iy > y) != (jy > y)) and (x < (jx - ix) * (y - iy) / (jy - iy) + ix):
