@@ -1,0 +1,81 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-sdist:
+    name: Build sdist
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version-file: pyproject.toml
+
+      - uses: astral-sh/setup-uv@v2
+
+      - name: Build sdist
+        run: uv build --sdist
+
+      - name: Upload sdist artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sdist
+          path: dist/
+
+  build-wheels:
+    name: Build wheels on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v4
+
+      # - uses: actions/setup-python@v5
+      #   with:
+      #     python-version: 3.x
+
+      # - uses: astral-sh/setup-uv@v2
+
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v3
+        with:
+          platforms: all
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.20
+        env:
+          CIBW_PRERELEASE_PYTHONS: True
+
+      # - name: Build wheels
+      #   run: uvx cibuildwheel
+      #   env:
+      #     CIBW_BEFORE_BUILD: uv pip install --system setuptools wheel
+      #     CIBW_BUILD_FRONTEND: "build[uv]; args: --no-isolation"
+      #     CIBW_PRERELEASE_PYTHONS: True
+      #     CIBW_PROJECT_REQUIRES_PYTHON: ==3.7.*
+
+      # - name: Upload wheels artifacts
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+      #     path: wheelhouse/
+
+  publish:
+    name: Publish build artifacts
+    needs: [build-sdist, build-wheels]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+
+      - run: echo publish here!

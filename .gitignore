@@ -1,11 +1,11 @@
 __pycache__/
 build/
 dist/
+wheelhouse/
 *.egg-info
 *.so
 *.pyd
-
-.venv/
+*.pyc
 
 .vscode/
 .*_cache/

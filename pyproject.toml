@@ -18,6 +18,7 @@ classifiers = [
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Scientific/Engineering",
     "Topic :: Scientific/Engineering :: GIS",
     "Topic :: Software Development :: Libraries",
@@ -73,3 +74,20 @@ exempt-modules = ["collections.abc", "typing"]
 
 [tool.ruff.format]
 quote-style = "single"
+
+[tool.cibuildwheel]
+build-frontend = "build[uv]"
+free-threaded-support = true
+test-command = "python {package}/test.py"
+test-skip = ["*arm64"]
+
+[tool.cibuildwheel.linux]
+archs = ["x86_64", "i686", "aarch64"]
+before-build = "rm -rf {project}/build"
+
+[tool.cibuildwheel.macos]
+archs = ["x86_64", "arm64", "universal2"]
+before-build = "rm -rf {project}/build"
+
+[tool.cibuildwheel.windows]
+before-build = "if exist build rmdir /s /q build"
