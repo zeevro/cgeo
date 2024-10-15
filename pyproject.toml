@@ -29,9 +29,6 @@ classifiers = [
 [tool.setuptools]
 packages = ["cgeo"]
 
-[tool.setuptools.package-data]
-cgeo = ["py.typed"]
-
 [[project.authors]]
 name = "Zeev Rotshtein"
 email = "zeevro@gmail.com"
