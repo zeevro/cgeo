@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=74.1.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -26,6 +26,9 @@ classifiers = [
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Typing :: Typed",
 ]
+
+[tool.setuptools]
+ext-modules = [{ name = "cgeo._cgeo", sources = ["cgeo.c"] }]
 
 [project.urls]
 Repository = "https://github.com/zeevro/cgeo"

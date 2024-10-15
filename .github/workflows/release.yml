@@ -55,8 +55,8 @@ jobs:
         with:
           enable-cache: false
 
-      - name: Remove setup.py (so C extension isn't built)
-        run: rm setup.py
+      - name: Remove C extension from pyproject.toml
+        run: uv run disable_c_ext.py
 
       - name: Build wheel
         run: uv build --wheel
