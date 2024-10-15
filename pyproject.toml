@@ -29,6 +29,10 @@ classifiers = [
 [tool.setuptools]
 packages = ["cgeo"]
 
+[[tool.setuptools.ext-modules]]
+name = "cgeo._cgeo"
+sources = ["cgeo.c"]
+
 [[project.authors]]
 name = "Zeev Rotshtein"
 email = "zeevro@gmail.com"
