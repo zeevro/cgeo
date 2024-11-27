@@ -6,6 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "cgeo"
 version = "1.0"
 requires-python = ">=3.7"
+authors = [{ name = "Zeev Rotshtein", email = "zeevro@gmail.com" }]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -29,16 +30,8 @@ classifiers = [
 [tool.setuptools]
 packages = ["cgeo"]
 
-[[project.authors]]
-name = "Zeev Rotshtein"
-email = "zeevro@gmail.com"
-
-[[project.maintainers]]
-name = "Zeev Rotshtein"
-email = "zeevro@gmail.com"
-
 [project.urls]
-Repository = "https://github.com/zeevro/cgeo.git"
+Repository = "https://github.com/zeevro/cgeo"
 
 [tool.ruff]
 line-length = 150
@@ -47,16 +40,26 @@ output-format = "concise"
 [tool.ruff.lint]
 select = ["ALL"]
 ignore = [
-    # Order is in keeping with output of `ruff linter`
+    "W191", # tab-indentation - conflicts with formatter
+    "E111", # indentation-with-invalid-multiple - conflicts with formatter
+    "E114", # indentation-with-invalid-multiple-comment - conflicts with formatter
+    "E117", # over-indented - conflicts with formatter
+    "D206", # indent-with-spaces - conflicts with formatter
+    "D300", # triple-single-quotes - conflicts with formatter
+    "Q000", # bad-quotes-inline-string - conflicts with formatter
+    "Q001", # bad-quotes-multiline-string - conflicts with formatter
+    "Q002", # bad-quotes-docstring - conflicts with formatter
+    "Q003", # avoidable-escaped-quote - conflicts with formatter
+    "COM812", # missing-trailing-comma - conflicts with formatter
+    "COM819", # prohibited-trailing-comma - conflicts with formatter
+    "ISC001", # single-line-implicit-string-concatenation - conflicts with formatter
+    "ISC002", # multi-line-implicit-string-concatenation - conflicts with formatter
+    "E501", # line-too-long - see formatter documentation
 
-    # Rules that conflict with formatter
-    "E111", "E114", "E117", "E501", "W191", "D206", "D300", "COM812", "COM819", "ISC001", "ISC002", "Q",
+    "D", # linter: pydocstyle
+    "PT", # linter: flake8-pytest-style
 
-    # Entire categories
-    "D", "PT",
-
-    # Individual rules (one line per category)
-    "B028",
+    "B028", # no-explicit-stacklevel
 ]
 
 [tool.ruff.lint.isort]

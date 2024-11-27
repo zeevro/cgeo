@@ -1,11 +1,13 @@
+# Compiled python
+*.pyc
 __pycache__/
+
+# Build artifacts
 build/
-dist/
-wheelhouse/
 *.egg-info
 *.so
 *.pyd
-*.pyc
+*.whl
 
+# Development files
 .vscode/
-.*_cache/
