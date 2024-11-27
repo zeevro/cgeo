@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from math import atan2, cos, pow, radians, sin, sqrt
+from math import atan2, cos, radians, sin, sqrt
 import warnings
 
 
