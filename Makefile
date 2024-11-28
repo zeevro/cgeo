@@ -1,6 +1,6 @@
 SOURCES=cgeo.c $(wildcard src/cgeo/*.py)
 
-.PHONE: build clean
+.PHONY: build clean
 
 build: $(SOURCES)
 	pip wheel -w dist .
