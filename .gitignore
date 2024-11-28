@@ -11,3 +11,6 @@ build/
 
 # Development files
 .vscode/
+
+# uv
+uv.lock

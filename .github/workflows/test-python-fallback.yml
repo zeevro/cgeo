@@ -19,10 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: ${{ matrix.python }}-dev
-          allow-prereleases: true
+      - uses: astral-sh/setup-uv@v4
 
       - name: Test slow fallback
-        run: python test.py
+        run: uv run -p${{ matrix.python }} -C--build-option=--skip-build test.py -v
