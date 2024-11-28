@@ -1,7 +1,5 @@
 name: Test Python fallback
 
-run-name: ${{ github.workflow }} for ${{ github.ref }}
-
 on:
   pull_request:
     branches: [ master ]
