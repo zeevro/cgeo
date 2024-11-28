@@ -1,9 +1,9 @@
-SOURCES=cgeo.c $(wildcard cgeo/*.py)
+SOURCES=cgeo.c $(wildcard src/cgeo/*.py)
 
 .PHONE: build clean
 
 build: $(SOURCES)
-	pip wheel .
+	pip wheel -w dist .
 
 clean:
-	rm -rf build/ *.egg-info/ *.whl
+	rm -rf dist build src/cgeo.egg-info src/cgeo/*.pyd src/cgeo/*.so

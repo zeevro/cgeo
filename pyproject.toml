@@ -27,9 +27,6 @@ classifiers = [
     "Typing :: Typed",
 ]
 
-[tool.setuptools]
-packages = ["cgeo"]
-
 [project.urls]
 Repository = "https://github.com/zeevro/cgeo"
 
@@ -75,7 +72,7 @@ quote-style = "single"
 [tool.cibuildwheel]
 build-frontend = "build[uv]"
 free-threaded-support = true
-test-command = "python {package}/test.py"
+test-command = "python -W \"error:Could not import cgeo C extension\" {package}/test.py -v"
 test-skip = ["*arm64"]
 
 [tool.cibuildwheel.linux]
