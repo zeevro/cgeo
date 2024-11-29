@@ -1,4 +1,4 @@
-# cgeo
+# zeevro-cgeo
 A python C module with geographic functions
 
 This library has two functions:

@@ -3,8 +3,8 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "cgeo"
-version = "1.0"
+name = "zeevro-cgeo"
+version = "1.0.0"
 requires-python = ">=3.8"
 authors = [{ name = "Zeev Rotshtein", email = "zeevro@gmail.com" }]
 classifiers = [
@@ -80,7 +80,9 @@ before-build = "rm -rf {project}/build"
 
 [tool.cibuildwheel.macos]
 archs = ["x86_64", "arm64", "universal2"]
+before-all = "curl -LsSf https://astral.sh/uv/install.sh | sh"
 before-build = "rm -rf {project}/build"
 
 [tool.cibuildwheel.windows]
+before-all = "pip install uv"
 before-build = "if exist build rmdir /s /q build"
