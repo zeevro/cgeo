@@ -84,6 +84,14 @@ jobs:
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22
+        env:
+          CIBW_BUILD: cp*
+          CIBW_ARCHS_LINUX: x86_64 i686 aarch64 armv7l
+          CIBW_ARCHS_MACOS: all
+          CIBW_BUILD_FRONTEND: build[uv]
+          CIBW_BEFORE_ALL_MACOS: curl -LsSf https://astral.sh/uv/install.sh | sh
+          CIBW_BEFORE_ALL_WINDOWS: pip install uv
+          CIBW_TEST_SKIP: '*aarch64 *arm64'
 
       - name: Upload wheels artifacts
         uses: actions/upload-artifact@v4
