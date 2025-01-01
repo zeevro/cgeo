@@ -27,13 +27,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: astral-sh/setup-uv@v4
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: false
+          python-version: ${{ matrix.python }}
 
       - name: Remove setup.py (so C extension isn't built)
         run: rm setup.py
         if: matrix.kind == 'pure-python'
 
       - name: Test
-        run: uv run -p${{ matrix.python }} test.py -v
+        run: uv run test.py -v
         env:
           PYTHONWARNINGS: ${{ matrix.kind == 'native' && 'error:Could not import cgeo C extension' || '' }}
