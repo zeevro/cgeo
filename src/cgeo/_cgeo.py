@@ -1,15 +1,19 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from math import atan2, cos, radians, sin, sqrt
+from math import atan2, cos, pi, sin, sqrt
 import warnings
 
 
 warnings.warn('Could not import cgeo C extension, Using slow fallback.')
 
-RAD = radians
 
 EARTH_RADIUS = 6378.137  # km
+
+
+def RAD(deg: float) -> float:  # noqa: N802
+    # Tests show that math.radians is less percise
+    return pi * (deg / 180)
 
 
 def great_circle_distance(s_lat: float, s_lng: float, d_lat: float, d_lng: float) -> float:

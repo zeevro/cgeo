@@ -5,10 +5,10 @@ import cgeo
 
 class TestGreatCircleDistance(unittest.TestCase):
     def test_literal(self) -> None:
-        self.assertAlmostEqual(cgeo.great_circle_distance(1, 2, 3, 4), 314.7551553654009)
+        self.assertAlmostEqual(cgeo.great_circle_distance(1, 2, 3, 4), 314.7551553654009, 10)
 
     def test_order(self) -> None:
-        self.assertAlmostEqual(cgeo.great_circle_distance(1, 2, 3, 4), cgeo.great_circle_distance(3, 4, 1, 2))
+        self.assertAlmostEqual(cgeo.great_circle_distance(1, 2, 3, 4), cgeo.great_circle_distance(3, 4, 1, 2), 10)
 
 
 class TestPointInPolygon(unittest.TestCase):
