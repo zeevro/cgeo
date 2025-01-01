@@ -68,5 +68,9 @@ exempt-modules = ["collections.abc", "typing"]
 [tool.ruff.format]
 quote-style = "single"
 
+[tool.mypy]
+strict = true
+files = ["src/", "test.py"]
+
 [tool.cibuildwheel]
 test-command = 'python -W "error:Could not import cgeo C extension" {package}/test.py -v'
