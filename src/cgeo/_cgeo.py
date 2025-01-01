@@ -18,7 +18,6 @@ def RAD(deg: float) -> float:  # noqa: N802
 
 def great_circle_distance(s_lat: float, s_lng: float, d_lat: float, d_lng: float) -> float:
     """Calculate the geodesian (great-circle) distance between two points. Coordinates are given in degrees."""
-
     s_lat = RAD(s_lat)
     s_lng = RAD(s_lng)
     d_lat = RAD(d_lat)
@@ -49,7 +48,6 @@ def great_circle_distance(s_lat: float, s_lng: float, d_lat: float, d_lng: float
 
 def point_inside_polygon(x: float, y: float, poly: Iterable[tuple[float, float]]) -> bool:
     """Check whether a point is inside a polygon."""
-
     poly = list(poly)
 
     c = False

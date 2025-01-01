@@ -52,8 +52,9 @@ ignore = [
     "ISC002", # multi-line-implicit-string-concatenation - conflicts with formatter
     "E501", # line-too-long - see formatter documentation
 
-    "D", # linter: pydocstyle
     "PT", # linter: flake8-pytest-style
+
+    "D104", # undocumented-public-package
 ]
 
 [tool.ruff.lint.isort]
@@ -62,6 +63,14 @@ lines-after-imports = 2
 
 [tool.ruff.lint.flake8-type-checking]
 exempt-modules = ["collections.abc", "typing"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "pep257"
+
+[tool.ruff.lint.per-file-ignores]
+"!src/**.py" = [
+    "D", # linter: pydocstyle
+]
 
 [tool.ruff.format]
 quote-style = "single"
