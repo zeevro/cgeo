@@ -5,7 +5,7 @@ from math import atan2, cos, pi, sin, sqrt
 import warnings
 
 
-warnings.warn('Could not import cgeo C extension, Using slow fallback.')
+warnings.warn('Could not import cgeo C extension, Using slow fallback.', stacklevel=3)
 
 
 EARTH_RADIUS = 6378.137  # km

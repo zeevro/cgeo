@@ -54,8 +54,6 @@ ignore = [
 
     "D", # linter: pydocstyle
     "PT", # linter: flake8-pytest-style
-
-    "B028", # no-explicit-stacklevel
 ]
 
 [tool.ruff.lint.isort]
