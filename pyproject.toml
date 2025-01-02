@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zeevro-cgeo"
-version = "1.0.0"
+version = "1.1.0"
 requires-python = ">=3.9"
 authors = [{ name = "Zeev Rotshtein", email = "zeevro@gmail.com" }]
 classifiers = [
