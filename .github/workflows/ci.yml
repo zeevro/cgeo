@@ -22,8 +22,9 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python: ['3.9', '3.10', '3.11', '3.12', '3.13']
-        kind: ['pure-python', 'native']
+        python: ['3.9', '3.10', '3.11', '3.12', '3.13', '3.13t']
+        kind: [pure-python, native]
+        exclude: [{ kind: pure-python, python: 3.13t }]
     steps:
       - uses: actions/checkout@v4
 

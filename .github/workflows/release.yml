@@ -90,6 +90,7 @@ jobs:
         uses: pypa/cibuildwheel@v2.22
         env:
           CIBW_BUILD: cp*
+          CIBW_ENABLE: cpython-freethreading
           CIBW_ARCHS_LINUX: x86_64 i686 aarch64 armv7l
           CIBW_ARCHS_MACOS: all
           CIBW_BUILD_FRONTEND: build[uv]
