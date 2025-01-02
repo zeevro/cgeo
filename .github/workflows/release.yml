@@ -70,43 +70,104 @@ jobs:
           name: pure-wheel
           path: dist/
 
-  native-wheels:
-    name: Build wheels on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+  linux-wheels:
+    name: Build wheels on Ubuntu
+    runs-on: ubuntu-latest
     needs: package-version
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        plat: [manylinux, musllinux]
+        arch:
+          - {cibw: x86_64}
+          - {cibw: i686}
+          - {cibw: aarch64, qemu: arm64}
+          - {cibw: armv7l, qemu: arm}
     steps:
       - uses: actions/checkout@v4
 
       - name: Set up QEMU
-        if: runner.os == 'Linux'
         uses: docker/setup-qemu-action@v3
         with:
-          platforms: all
+          platforms: ${{ matrix.arch.qemu }}
+        if: matrix.arch.qemu
+
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.22
+        env:
+          CIBW_ARCHS: all
+          CIBW_BUILD: cp*-${{ matrix.plat }}_${{ matrix.arch.cibw }}
+          CIBW_ENABLE: cpython-freethreading
+          CIBW_BUILD_FRONTEND: build[uv]
+          CIBW_ENVIRONMENT: AUDITWHEEL_PLAT=
+
+      - name: Upload wheels artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-${{ matrix.plat }}-${{ matrix.arch.cibw }}-${{ strategy.job-index }}
+          path: wheelhouse/
+
+  windows-wheels:
+    name: Build wheels on Windows
+    runs-on: windows-latest
+    needs: package-version
+    strategy:
+      matrix:
+        python: ['3.9', '3.10', '3.11', '3.12', '3.13', '3.13t']
+        arch: [x86_64, x86]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          python-version: cpython-${{ matrix.python }}-windows-${{ matrix.arch }}
+          enable-cache: false
+
+      - name: Build wheel
+        run: uv build --wheel
+
+      - name: Install built wheel
+        run: uv pip install --no-index -f dist -v zeevro-cgeo
+
+      - name: Test wheel
+        run: uv run --no-sync test.py -v
+        env:
+          PYTHONWARNINGS: error:Could not import cgeo C extension
+
+      - name: Upload wheels artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cibw-wheels-windows-${{ matrix.python }}-${{ matrix.arch }}-${{ strategy.job-index }}
+          path: dist/
+
+  macos-wheels:
+    name: Build wheels on MacOS
+    runs-on: macos-latest
+    needs: package-version
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: false
 
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.22
         env:
           CIBW_BUILD: cp*
           CIBW_ENABLE: cpython-freethreading
-          CIBW_ARCHS_LINUX: x86_64 i686 aarch64 armv7l
-          CIBW_ARCHS_MACOS: all
+          CIBW_ARCHS: all
           CIBW_BUILD_FRONTEND: build[uv]
-          CIBW_BEFORE_ALL_MACOS: curl -LsSf https://astral.sh/uv/install.sh | sh
-          CIBW_BEFORE_ALL_WINDOWS: pip install uv
-          CIBW_TEST_SKIP: '*aarch64 *arm64'
+          CIBW_TEST_SKIP: '*arm64'
 
       - name: Upload wheels artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: cibw-wheels-${{ matrix.os }}-${{ strategy.job-index }}
+          name: cibw-wheels-macos
           path: wheelhouse/
 
   release:
     name: Release
-    needs: [package-version, sdist, pure-wheel, native-wheels]
+    needs: [package-version, sdist, pure-wheel, linux-wheels, windows-wheels, macos-wheels]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -123,7 +184,7 @@ jobs:
 
   publish:
     name: Publish
-    needs: [sdist, pure-wheel, native-wheels]
+    needs: [sdist, pure-wheel, linux-wheels, windows-wheels, macos-wheels]
     runs-on: ubuntu-latest
     environment:
       name: pypi
