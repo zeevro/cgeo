@@ -29,7 +29,7 @@ classifiers = [
 Repository = "https://github.com/zeevro/cgeo"
 
 [build-system]
-requires = ["setuptools-reproducible"]
+requires = ["setuptools>=74.1.0", "setuptools-reproducible"]
 build-backend = "setuptools_reproducible"
 
 [tool.cibuildwheel]
@@ -85,10 +85,13 @@ convention = "pep257"
 [tool.ruff.format]
 quote-style = "single"
 
+[tool.setuptools]
+ext-modules = [{ name = "cgeo._cgeo", sources = ["cgeo.c"] }]
+
 [tool.tombi.format.rules]
 indent-width = 4
 line-width = 120
 trailing-comment-space-width = 1
 
 [tool.uv]
-cache-keys = ["pyproject.toml", "setup.py", "cgeo.c"]
+cache-keys = ["pyproject.toml", "cgeo.c"]

@@ -33,8 +33,8 @@ jobs:
           enable-cache: false
           python-version: ${{ matrix.python }}
 
-      - name: Remove setup.py (so C extension isn't built)
-        run: rm setup.py
+      - name: Remove C extension from pyproject.toml
+        run: uvx --from toml-cli toml unset --toml-path pyproject.toml tool.setuptools.ext-modules
         if: matrix.kind == 'pure-python'
 
       - name: Test
