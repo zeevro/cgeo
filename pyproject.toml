@@ -7,10 +7,10 @@ name = "zeevro-cgeo"
 version = "1.1.0"
 requires-python = ">=3.9"
 authors = [{ name = "Zeev Rotshtein", email = "zeevro@gmail.com" }]
+license = "CC0-1.0"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
-    "License :: Public Domain",
     "Programming Language :: C",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
