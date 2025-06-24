@@ -49,8 +49,6 @@ ignore = [
     "Q003", # avoidable-escaped-quote - conflicts with formatter
     "COM812", # missing-trailing-comma - conflicts with formatter
     "COM819", # prohibited-trailing-comma - conflicts with formatter
-    "ISC001", # single-line-implicit-string-concatenation - conflicts with formatter
-    "ISC002", # multi-line-implicit-string-concatenation - conflicts with formatter
     "E501", # line-too-long - see formatter documentation
 
     "PT", # linter: flake8-pytest-style

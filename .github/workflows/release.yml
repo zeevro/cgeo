@@ -10,14 +10,18 @@ jobs:
     outputs:
       tag: ${{ steps.package-version.outputs.tag }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-tags: true
+
+      - uses: astral-sh/setup-uv@v8.2.0
+        with:
+          enable-cache: false
 
       - name: Get tag name from package version
         id: package-version
         run: |
-          tag=v$(yq .project.version pyproject.toml)
+          tag=v$(uv version --short)
           if [[ -n $(git tag -l "$tag") ]]; then
             echo "::error::Tag $tag already exists!"
             exit 1
@@ -29,9 +33,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: package-version
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v8.2.0
         with:
           enable-cache: false
 
@@ -39,7 +43,7 @@ jobs:
         run: uv build --sdist
 
       - name: Upload sdist artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: sdist
           path: dist/
@@ -49,9 +53,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: package-version
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v8.2.0
         with:
           enable-cache: false
 
@@ -65,7 +69,7 @@ jobs:
         run: uv run --directory ${{ runner.temp }} --with ${{ github.workspace }}/dist/*.whl ${{ github.workspace }}/test.py
 
       - name: Upload wheel artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: pure-wheel
           path: dist/
@@ -83,16 +87,16 @@ jobs:
           - {cibw: aarch64, qemu: arm64}
           - {cibw: armv7l, qemu: arm}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+        uses: docker/setup-qemu-action@v4
         with:
           platforms: ${{ matrix.arch.qemu }}
         if: matrix.arch.qemu
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.22
+        uses: pypa/cibuildwheel@v4.1
         env:
           CIBW_ARCHS: all
           CIBW_BUILD: cp*-${{ matrix.plat }}_${{ matrix.arch.cibw }}
@@ -101,7 +105,7 @@ jobs:
           CIBW_ENVIRONMENT: AUDITWHEEL_PLAT=
 
       - name: Upload wheels artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cibw-wheels-${{ matrix.plat }}-${{ matrix.arch.cibw }}-${{ strategy.job-index }}
           path: wheelhouse/
@@ -115,9 +119,9 @@ jobs:
         python: ['3.9', '3.10', '3.11', '3.12', '3.13', '3.13t']
         arch: [x86_64, x86]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v8.2.0
         with:
           python-version: cpython-${{ matrix.python }}-windows-${{ matrix.arch }}
           enable-cache: false
@@ -134,7 +138,7 @@ jobs:
           PYTHONWARNINGS: error:Could not import cgeo C extension
 
       - name: Upload wheels artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: cibw-wheels-windows-${{ matrix.python }}-${{ matrix.arch }}-${{ strategy.job-index }}
           path: dist/
@@ -144,14 +148,14 @@ jobs:
     runs-on: macos-latest
     needs: package-version
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v8.2.0
         with:
           enable-cache: false
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v2.22
+        uses: pypa/cibuildwheel@v4.1
         env:
           CIBW_BUILD: cp*
           CIBW_ENABLE: cpython-freethreading
@@ -160,7 +164,7 @@ jobs:
           CIBW_TEST_SKIP: '*arm64'
 
       - name: Upload wheels artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: cibw-wheels-macos
           path: wheelhouse/
@@ -170,9 +174,9 @@ jobs:
     needs: [package-version, sdist, pure-wheel, linux-wheels, windows-wheels, macos-wheels]
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: dist
           merge-multiple: true
@@ -193,12 +197,12 @@ jobs:
       id-token: write
       contents: write
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v8
         with:
           path: dist
           merge-multiple: true
 
-      - uses: astral-sh/setup-uv@v5
+      - uses: astral-sh/setup-uv@v8.2.0
         with:
           enable-cache: false
 
