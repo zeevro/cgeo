@@ -59,12 +59,11 @@ static PyObject * point_inside_polygon(PyObject * self, PyObject * args)
 	PyObject * poly_tuple;
 	PyObject * poly_point;
 	point * poly;
-	unsigned long long len;
-	int i, j, c = 0;
+	unsigned int len, i, j, c = 0;
 
 	PyArg_ParseTuple(args, "ddO", &x, &y, &poly_tuple);
 
-	len = PySequence_Size(poly_tuple);
+	len = (unsigned int)PySequence_Size(poly_tuple);
 
 	poly = malloc(len * sizeof(point));
 	if (!poly)
@@ -95,8 +94,7 @@ static PyObject * point_inside_polygon(PyObject * self, PyObject * args)
 
 	Py_END_ALLOW_THREADS
 
-	if (c) Py_RETURN_TRUE;
-	Py_RETURN_FALSE;
+	return PyBool_FromLong(c);
 }
 
 static PyMethodDef module_funcs[] = {
@@ -115,7 +113,7 @@ static PyModuleDef_Slot module_slots[] = {
 #ifdef Py_MOD_PER_INTERPRETER_GIL_SUPPORTED
 	{Py_mod_multiple_interpreters, Py_MOD_PER_INTERPRETER_GIL_SUPPORTED},
 #endif
-#if PY_VERSION_HEX >= 0x030D0000
+#ifdef Py_MOD_GIL_NOT_USED
     {Py_mod_gil, Py_MOD_GIL_NOT_USED},
 #endif
 	{0, NULL},
