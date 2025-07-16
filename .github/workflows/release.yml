@@ -66,7 +66,7 @@ jobs:
         run: uv build --wheel
 
       - name: Test wheel
-        run: uv run --directory ${{ runner.temp }} --with ${{ github.workspace }}/dist/*.whl ${{ github.workspace }}/test.py
+        run: uvx --no-index -f dist --with zeevro-cgeo python test.py -v
 
       - name: Upload wheel artifact
         uses: actions/upload-artifact@v5
@@ -129,11 +129,8 @@ jobs:
       - name: Build wheel
         run: uv build --wheel
 
-      - name: Install built wheel
-        run: uv pip install --no-index -f dist -v zeevro-cgeo
-
       - name: Test wheel
-        run: uv run --no-sync test.py -v
+        run: uvx --no-index -f dist --with zeevro-cgeo python test.py -v
         env:
           PYTHONWARNINGS: error:Could not import cgeo C extension
 
