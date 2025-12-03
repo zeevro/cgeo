@@ -5,7 +5,7 @@ build-backend = "setuptools_reproducible"
 [project]
 name = "zeevro-cgeo"
 version = "1.1.0"
-requires-python = ">=3.9"
+requires-python = ">=3.10"
 authors = [{ name = "Zeev Rotshtein", email = "zeevro@gmail.com" }]
 license = "CC0-1.0"
 classifiers = [
@@ -14,7 +14,6 @@ classifiers = [
     "Programming Language :: C",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
@@ -56,6 +55,7 @@ ignore = [
 
     "PT", # linter: flake8-pytest-style
 
+    "B905", # zip-without-explicit-strict
     "D104", # undocumented-public-package
 ]
 
