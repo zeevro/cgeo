@@ -1,13 +1,9 @@
-[build-system]
-requires = ["setuptools-reproducible"]
-build-backend = "setuptools_reproducible"
-
 [project]
 name = "zeevro-cgeo"
 version = "1.1.0"
 requires-python = ">=3.10"
-authors = [{ name = "Zeev Rotshtein", email = "zeevro@gmail.com" }]
 license = "CC0-1.0"
+authors = [{ name = "Zeev Rotshtein", email = "zeevro@gmail.com" }]
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
@@ -32,6 +28,17 @@ classifiers = [
 [project.urls]
 Repository = "https://github.com/zeevro/cgeo"
 
+[build-system]
+requires = ["setuptools-reproducible"]
+build-backend = "setuptools_reproducible"
+
+[tool.cibuildwheel]
+test-command = 'python -W "error:Could not import cgeo C extension" {package}/test.py -v'
+
+[tool.mypy]
+strict = true
+files = ["src/", "test.py"]
+
 [tool.ruff]
 line-length = 150
 output-format = "concise"
@@ -53,6 +60,7 @@ ignore = [
     "COM819", # prohibited-trailing-comma - conflicts with formatter
     "E501", # line-too-long - see formatter documentation
 
+    "CPY", # linter: flake8-copyright
     "PT", # linter: flake8-pytest-style
 
     "B905", # zip-without-explicit-strict
@@ -77,12 +85,10 @@ convention = "pep257"
 [tool.ruff.format]
 quote-style = "single"
 
-[tool.mypy]
-strict = true
-files = ["src/", "test.py"]
+[tool.tombi.format.rules]
+indent-width = 4
+line-width = 120
+trailing-comment-space-width = 1
 
 [tool.uv]
 cache-keys = ["pyproject.toml", "setup.py", "cgeo.c"]
-
-[tool.cibuildwheel]
-test-command = 'python -W "error:Could not import cgeo C extension" {package}/test.py -v'

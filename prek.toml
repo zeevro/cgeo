@@ -1,0 +1,62 @@
+# Configuration file for `prek`, a git hook framework written in Rust.
+# See https://prek.j178.dev for more information.
+#:schema https://www.schemastore.org/prek.json
+
+[[repos]]
+repo = "https://github.com/pre-commit/pre-commit-hooks"
+rev = "v6.0.0"
+hooks = [
+    { id = "trailing-whitespace" },
+    { id = "end-of-file-fixer" },
+]
+
+[[repos]]
+repo = "https://github.com/abravalheri/validate-pyproject"
+rev = "0.26"
+hooks = [
+    { id = "validate-pyproject", additional_dependencies = ["validate-pyproject[all,store]"] },
+]
+
+[[repos]]
+repo = "https://github.com/tombi-toml/tombi-pre-commit"
+rev = "v1.5.0"
+hooks = [
+    { id = "tombi-format" },
+    { id = "tombi-lint" },
+]
+
+[[repos]]
+repo = "https://github.com/zeevro/pyproject-toml-format"
+rev = "v0.0.5"
+hooks = [
+    { id = "pyproject-toml-format", additional_dependencies = ["ruff"] },
+]
+
+[[repos]]
+repo = "https://github.com/astral-sh/ruff-pre-commit"
+rev = "v0.16.5"
+hooks = [
+    { id = "ruff-check", args = ["--fix"] },
+    { id = "ruff-format" },
+]
+
+[[repos]]
+repo = "https://github.com/pre-commit/mirrors-mypy"
+rev = "v2.3.1"
+hooks = [
+    { id = "mypy", args = [], pass_filenames = false },
+]
+
+[[repos]]
+repo = "https://github.com/Mateusz-Grzelinski/actionlint-py"
+rev = "v1.7.12.24"
+hooks = [
+    { id = "actionlint", additional_dependencies = ["pyflakes>=3.0.1", "shellcheck-py>=0.9.0.5"] },
+]
+
+[[repos]]
+repo = "https://github.com/jackdewinter/pymarkdown"
+rev = "v0.9.39"
+hooks = [
+    { id = "pymarkdown", args = ["fix"] },
+]
