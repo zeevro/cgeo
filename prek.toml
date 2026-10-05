@@ -19,7 +19,7 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/tombi-toml/tombi-pre-commit"
-rev = "v1.5.0"
+rev = "v1.7.2"
 hooks = [
     { id = "tombi-format" },
     { id = "tombi-lint" },
@@ -34,7 +34,7 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/astral-sh/ruff-pre-commit"
-rev = "v0.16.5"
+rev = "v0.16.10"
 hooks = [
     { id = "ruff-check", args = ["--fix"] },
     { id = "ruff-format" },
@@ -42,21 +42,21 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/pre-commit/mirrors-mypy"
-rev = "v2.3.1"
+rev = "v2.4.0"
 hooks = [
     { id = "mypy", args = [], pass_filenames = false },
 ]
 
 [[repos]]
 repo = "https://github.com/Mateusz-Grzelinski/actionlint-py"
-rev = "v1.7.12.24"
+rev = "v1.7.12.25"
 hooks = [
     { id = "actionlint", additional_dependencies = ["pyflakes>=3.0.1", "shellcheck-py>=0.9.0.5"] },
 ]
 
 [[repos]]
 repo = "https://github.com/jackdewinter/pymarkdown"
-rev = "v0.9.39"
+rev = "v0.9.40"
 hooks = [
     { id = "pymarkdown", args = ["fix"] },
 ]
