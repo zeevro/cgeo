@@ -1,6 +1,6 @@
 [project]
 name = "zeevro-cgeo"
-version = "1.1.0"
+version = "1.2.0"
 requires-python = ">=3.10"
 license = "CC0-1.0"
 authors = [{ name = "Zeev Rotshtein", email = "zeevro@gmail.com" }]
