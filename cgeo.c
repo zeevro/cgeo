@@ -103,6 +103,26 @@ static PyMethodDef module_funcs[] = {
 	{NULL, NULL, 0, NULL},
 };
 
+#define MODULE_DOC "A module with geographic functions"
+
+#ifdef PyMODEXPORT_FUNC
+PyABIInfo_VAR(abi_info);
+
+static PySlot module_slots[] = {
+    PySlot_STATIC_DATA(Py_mod_abi, &abi_info),
+    PySlot_STATIC_DATA(Py_mod_name, "_cgeo"),
+    PySlot_STATIC_DATA(Py_mod_doc, MODULE_DOC),
+    PySlot_STATIC_DATA(Py_mod_methods, module_funcs),
+    PySlot_DATA(Py_mod_multiple_interpreters, Py_MOD_PER_INTERPRETER_GIL_SUPPORTED),
+    PySlot_DATA(Py_mod_gil, Py_MOD_GIL_NOT_USED),
+    PySlot_END
+};
+
+PyMODEXPORT_FUNC PyModExport__cgeo()
+{
+	return module_slots;
+}
+#else
 int exec_module(PyObject * module)
 {
 	return PyModule_AddFunctions(module, module_funcs);
@@ -122,7 +142,7 @@ static PyModuleDef_Slot module_slots[] = {
 static PyModuleDef module_definition = {
 	PyModuleDef_HEAD_INIT,
 	"_cgeo",
-	"A module with geographic functions",
+	MODULE_DOC,
 	0,
 	NULL,
 	module_slots,
@@ -132,3 +152,4 @@ PyMODINIT_FUNC PyInit__cgeo(void)
 {
 	return PyModuleDef_Init(&module_definition);
 }
+#endif
