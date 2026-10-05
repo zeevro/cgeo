@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from collections.abc import Iterable
 from math import atan2, cos, pi, sin, sqrt
 import warnings
@@ -55,3 +53,6 @@ def point_inside_polygon(x: float, y: float, poly: Iterable[tuple[float, float]]
         if ((iy > y) != (jy > y)) and (x < (jx - ix) * (y - iy) / (jy - iy) + ix):
             c = not c
     return c
+
+
+__all__ = ['great_circle_distance', 'point_inside_polygon']
