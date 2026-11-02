@@ -55,6 +55,13 @@ hooks = [
 ]
 
 [[repos]]
+repo = "https://github.com/zizmorcore/zizmor-pre-commit"
+rev = "v1.31.1"
+hooks = [
+    { id = "zizmor", args = ["--no-progress", "--fix"] },
+]
+
+[[repos]]
 repo = "https://github.com/jackdewinter/pymarkdown"
 rev = "v0.9.41"
 hooks = [

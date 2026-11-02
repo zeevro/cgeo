@@ -7,14 +7,17 @@ jobs:
   package-version:
     name: Check package version
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       tag: ${{ steps.package-version.outputs.tag }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
         with:
           fetch-tags: true
+          persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
         with:
           enable-cache: false
 
@@ -31,11 +34,15 @@ jobs:
   sdist:
     name: Build sdist
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: package-version
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
         with:
           enable-cache: false
 
@@ -43,7 +50,7 @@ jobs:
         run: uv build --sdist
 
       - name: Upload sdist artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
           name: sdist
           path: dist/
@@ -51,11 +58,15 @@ jobs:
   pure-wheel:
     name: Build pure-python wheel
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: package-version
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
         with:
           enable-cache: false
 
@@ -69,7 +80,7 @@ jobs:
         run: uvx --no-index -f dist --with zeevro-cgeo python test.py -v
 
       - name: Upload wheel artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
           name: pure-wheel
           path: dist/
@@ -77,6 +88,8 @@ jobs:
   linux-wheels:
     name: Build wheels on Ubuntu
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     needs: package-version
     strategy:
       matrix:
@@ -87,16 +100,18 @@ jobs:
           - {cibw: aarch64, qemu: arm64}
           - {cibw: armv7l, qemu: arm}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
+        uses: docker/setup-qemu-action@99012661954931238ded8c8b007157a8430204e1  # v4.4.0
         with:
           platforms: ${{ matrix.arch.qemu }}
         if: matrix.arch.qemu
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v4.1
+        uses: pypa/cibuildwheel@f9b966cfadf4109556cadc5bb39ddb72d0ce664e  # v4.3.5
         env:
           CIBW_ARCHS: all
           CIBW_BUILD: cp*-${{ matrix.plat }}_${{ matrix.arch.cibw }}
@@ -105,7 +120,7 @@ jobs:
           CIBW_ENVIRONMENT: AUDITWHEEL_PLAT=
 
       - name: Upload wheels artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
           name: cibw-wheels-${{ matrix.plat }}-${{ matrix.arch.cibw }}-${{ strategy.job-index }}
           path: wheelhouse/
@@ -113,15 +128,19 @@ jobs:
   windows-wheels:
     name: Build wheels on Windows
     runs-on: windows-latest
+    permissions:
+      contents: read
     needs: package-version
     strategy:
       matrix:
         python: ['3.10', '3.11', '3.12', '3.13', '3.13t', '3.14', '3.14t', '3.15', '3.15t']
         arch: [x86_64, x86]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
         with:
           python-version: cpython-${{ matrix.python }}-windows-${{ matrix.arch }}
           enable-cache: false
@@ -135,7 +154,7 @@ jobs:
           PYTHONWARNINGS: error:Could not import cgeo C extension
 
       - name: Upload wheels artifacts
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
           name: cibw-wheels-windows-${{ matrix.python }}-${{ matrix.arch }}-${{ strategy.job-index }}
           path: dist/
@@ -143,16 +162,20 @@ jobs:
   macos-wheels:
     name: Build wheels on MacOS
     runs-on: macos-latest
+    permissions:
+      contents: read
     needs: package-version
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
         with:
           enable-cache: false
 
       - name: Build wheels
-        uses: pypa/cibuildwheel@v4.1
+        uses: pypa/cibuildwheel@f9b966cfadf4109556cadc5bb39ddb72d0ce664e  # v4.3.5
         env:
           CIBW_BUILD: cp*
           CIBW_ENABLE: cpython-freethreading
@@ -161,7 +184,7 @@ jobs:
           CIBW_TEST_SKIP: '*arm64'
 
       - name: Upload wheels artifacts
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9  # v7.0.2
         with:
           name: cibw-wheels-macos
           path: wheelhouse/
@@ -170,18 +193,23 @@ jobs:
     name: Release
     needs: [package-version, sdist, pure-wheel, linux-wheels, windows-wheels, macos-wheels]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
         with:
           path: dist
           merge-multiple: true
 
       - name: Create release
-        run: gh release create --target ${{ github.sha }} --generate-notes ${{ needs.package-version.outputs.tag }} ./dist/*
+        run: gh release create --target ${{ github.sha }} --generate-notes "$TAG" ./dist/*
         env:
           GITHUB_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.package-version.outputs.tag }}
 
   publish:
     name: Publish
@@ -192,14 +220,14 @@ jobs:
       url: https://pypi.org/project/zeevro-cgeo
     permissions:
       id-token: write
-      contents: write
+      contents: read
     steps:
-      - uses: actions/download-artifact@v8
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333  # v8.0.2
         with:
           path: dist
           merge-multiple: true
 
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
         with:
           enable-cache: false
 

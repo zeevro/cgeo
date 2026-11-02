@@ -11,24 +11,32 @@ jobs:
   pre-commit:
     name: Run pre-commit
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Run pre-commit
-        uses: j178/prek-action@v2
+        uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d  # v3.1.0
 
   test:
     name: Test ${{ matrix.kind }} on Python ${{ matrix.python }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       matrix:
         python: ['3.10', '3.11', '3.12', '3.13', '3.13t', '3.14', '3.14t', '3.15', '3.15t']
         kind: [pure-python, native]
         exclude: [{ kind: pure-python, python: 3.13t }, { kind: pure-python, python: 3.14t }, { kind: pure-python, python: 3.15t }]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1  # v7.0.1
+        with:
+          persist-credentials: false
 
-      - uses: astral-sh/setup-uv@v8.2.0
+      - uses: astral-sh/setup-uv@68559e99cc807c1eb7e9238fd43a15bba460eec2  # v10.3.3
         with:
           enable-cache: false
           python-version: ${{ matrix.python }}
