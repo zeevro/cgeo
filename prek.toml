@@ -12,14 +12,14 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/abravalheri/validate-pyproject"
-rev = "0.26"
+rev = "v0.27"
 hooks = [
     { id = "validate-pyproject", additional_dependencies = ["validate-pyproject[all,store]"] },
 ]
 
 [[repos]]
 repo = "https://github.com/tombi-toml/tombi-pre-commit"
-rev = "v1.7.2"
+rev = "v1.9.8"
 hooks = [
     { id = "tombi-format" },
     { id = "tombi-lint" },
@@ -34,7 +34,7 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/astral-sh/ruff-pre-commit"
-rev = "v0.16.10"
+rev = "v0.17.3"
 hooks = [
     { id = "ruff-check", args = ["--fix"] },
     { id = "ruff-format" },
@@ -42,7 +42,7 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/pre-commit/mirrors-mypy"
-rev = "v2.4.0"
+rev = "v2.4.1"
 hooks = [
     { id = "mypy", args = [], pass_filenames = false },
 ]
@@ -56,7 +56,7 @@ hooks = [
 
 [[repos]]
 repo = "https://github.com/jackdewinter/pymarkdown"
-rev = "v0.9.40"
+rev = "v0.9.41"
 hooks = [
     { id = "pymarkdown", args = ["fix"] },
 ]
